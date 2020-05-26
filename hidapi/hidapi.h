@@ -29,16 +29,6 @@
 
 #include <wchar.h>
 
-#ifdef _WIN32
-      #define HID_API_EXPORT __declspec(dllexport)
-      #define HID_API_CALL
-#else
-      #define HID_API_EXPORT /**< API export macro */
-      #define HID_API_CALL /**< API call macro */
-#endif
-
-#define HID_API_EXPORT_CALL HID_API_EXPORT HID_API_CALL /**< API export and call macro*/
-
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -93,43 +83,7 @@ extern "C" {
 			@returns
 				This function returns 0 on success and -1 on error.
 		*/
-		int HID_API_EXPORT HID_API_CALL hid_init(void);
-
-		/** @brief Finalize the HIDAPI library.
-
-			This function frees all of the static data associated with
-			HIDAPI. It should be called at the end of execution to avoid
-			memory leaks.
-
-			@ingroup API
-
-		    @returns
-				This function returns 0 on success and -1 on error.
-		*/
-		int HID_API_EXPORT HID_API_CALL hid_exit(void);
-
-		/** @brief Enumerate the HID Devices.
-
-			This function returns a linked list of all the HID devices
-			attached to the system which match vendor_id and product_id.
-			If @p vendor_id is set to 0 then any vendor matches.
-			If @p product_id is set to 0 then any product matches.
-			If @p vendor_id and @p product_id are both set to 0, then
-			all HID devices will be returned.
-
-			@ingroup API
-			@param vendor_id The Vendor ID (VID) of the types of device
-				to open.
-			@param product_id The Product ID (PID) of the types of
-				device to open.
-
-		    @returns
-		    	This function returns a pointer to a linked list of type
-		    	struct #hid_device, containing information about the HID devices
-		    	attached to the system, or NULL in the case of failure. Free
-		    	this linked list by calling hid_free_enumeration().
-		*/
-		struct hid_device_info HID_API_EXPORT * HID_API_CALL hid_enumerate(unsigned short vendor_id, unsigned short product_id);
+		struct hid_device_info * hid_enumerate(unsigned short vendor_id, unsigned short product_id);
 
 		/** @brief Free an enumeration Linked List
 
@@ -139,7 +93,7 @@ extern "C" {
 		    @param devs Pointer to a list of struct_device returned from
 		    	      hid_enumerate().
 		*/
-		void  HID_API_EXPORT HID_API_CALL hid_free_enumeration(struct hid_device_info *devs);
+		void  hid_free_enumeration(struct hid_device_info *devs);
 
 		/** @brief Open a HID device using a Vendor ID (VID), Product ID
 			(PID) and optionally a serial number.
@@ -157,7 +111,7 @@ extern "C" {
 				This function returns a pointer to a #hid_device object on
 				success or NULL on failure.
 		*/
-		HID_API_EXPORT hid_device * HID_API_CALL hid_open(unsigned short vendor_id, unsigned short product_id, const wchar_t *serial_number);
+		hid_device * hid_open(unsigned short vendor_id, unsigned short product_id, const wchar_t *serial_number);
 
 		/** @brief Open a HID device by its path name.
 
@@ -172,7 +126,7 @@ extern "C" {
 				This function returns a pointer to a #hid_device object on
 				success or NULL on failure.
 		*/
-		HID_API_EXPORT hid_device * HID_API_CALL hid_open_path(const char *path);
+		hid_device * hid_open_path(const char *path);
 
 		/** @brief Write an Output report to a HID device.
 
@@ -200,7 +154,7 @@ extern "C" {
 				This function returns the actual number of bytes written and
 				-1 on error.
 		*/
-		int  HID_API_EXPORT HID_API_CALL hid_write(hid_device *device, const unsigned char *data, size_t length);
+		int hid_write(hid_device *device, const unsigned char *data, size_t length);
 
 		/** @brief Read an Input report from a HID device with timeout.
 
@@ -221,7 +175,7 @@ extern "C" {
 				-1 on error. If no packet was available to be read within
 				the timeout period, this function returns 0.
 		*/
-		int HID_API_EXPORT HID_API_CALL hid_read_timeout(hid_device *dev, unsigned char *data, size_t length, int milliseconds);
+		int hid_read_timeout(hid_device *dev, unsigned char *data, size_t length, int milliseconds);
 
 		/** @brief Read an Input report from a HID device.
 
@@ -241,7 +195,7 @@ extern "C" {
 				-1 on error. If no packet was available to be read and
 				the handle is in non-blocking mode, this function returns 0.
 		*/
-		int  HID_API_EXPORT HID_API_CALL hid_read(hid_device *device, unsigned char *data, size_t length);
+		int hid_read(hid_device *device, unsigned char *data, size_t length);
 
 		/** @brief Set the device handle to be non-blocking.
 
@@ -261,7 +215,7 @@ extern "C" {
 			@returns
 				This function returns 0 on success and -1 on error.
 		*/
-		int  HID_API_EXPORT HID_API_CALL hid_set_nonblocking(hid_device *device, int nonblock);
+		int hid_set_nonblocking(hid_device *device, int nonblock);
 
 		/** @brief Send a Feature report to the device.
 
@@ -289,7 +243,7 @@ extern "C" {
 				This function returns the actual number of bytes written and
 				-1 on error.
 		*/
-		int HID_API_EXPORT HID_API_CALL hid_send_feature_report(hid_device *device, const unsigned char *data, size_t length);
+		int hid_send_feature_report(hid_device *device, const unsigned char *data, size_t length);
 
 		/** @brief Get a feature report from a HID device.
 
@@ -314,14 +268,14 @@ extern "C" {
 				one for the report ID (which is still in the first
 				byte), or -1 on error.
 		*/
-		int HID_API_EXPORT HID_API_CALL hid_get_feature_report(hid_device *device, unsigned char *data, size_t length);
+		int hid_get_feature_report(hid_device *device, unsigned char *data, size_t length);
 
 		/** @brief Close a HID device.
 
 			@ingroup API
 			@param device A device handle returned from hid_open().
 		*/
-		void HID_API_EXPORT HID_API_CALL hid_close(hid_device *device);
+		void hid_close(hid_device *device);
 
 		/** @brief Get The Manufacturer String from a HID device.
 
@@ -333,7 +287,7 @@ extern "C" {
 			@returns
 				This function returns 0 on success and -1 on error.
 		*/
-		int HID_API_EXPORT_CALL hid_get_manufacturer_string(hid_device *device, wchar_t *string, size_t maxlen);
+		int hid_get_manufacturer_string(hid_device *device, wchar_t *string, size_t maxlen);
 
 		/** @brief Get The Product String from a HID device.
 
@@ -345,7 +299,7 @@ extern "C" {
 			@returns
 				This function returns 0 on success and -1 on error.
 		*/
-		int HID_API_EXPORT_CALL hid_get_product_string(hid_device *device, wchar_t *string, size_t maxlen);
+		int hid_get_product_string(hid_device *device, wchar_t *string, size_t maxlen);
 
 		/** @brief Get The Serial Number String from a HID device.
 
@@ -357,7 +311,7 @@ extern "C" {
 			@returns
 				This function returns 0 on success and -1 on error.
 		*/
-		int HID_API_EXPORT_CALL hid_get_serial_number_string(hid_device *device, wchar_t *string, size_t maxlen);
+		int hid_get_serial_number_string(hid_device *device, wchar_t *string, size_t maxlen);
 
 		/** @brief Get a string from a HID device, based on its string index.
 
@@ -370,7 +324,7 @@ extern "C" {
 			@returns
 				This function returns 0 on success and -1 on error.
 		*/
-		int HID_API_EXPORT_CALL hid_get_indexed_string(hid_device *device, int string_index, wchar_t *string, size_t maxlen);
+		int hid_get_indexed_string(hid_device *device, int string_index, wchar_t *string, size_t maxlen);
 
 		/** @brief Get a string describing the last error which occurred.
 
@@ -381,7 +335,7 @@ extern "C" {
 				This function returns a string containing the last error
 				which occurred or NULL if none has occurred.
 		*/
-		HID_API_EXPORT const wchar_t* HID_API_CALL hid_error(hid_device *device);
+		const wchar_t* hid_error(hid_device *device);
 
 #ifdef __cplusplus
 }
