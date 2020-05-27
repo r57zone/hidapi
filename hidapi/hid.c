@@ -882,7 +882,7 @@ void hid_close(hid_device *dev)
 	free_hid_device(dev);
 }
 
-int HID_API_EXPORT_CALL hid_get_manufacturer_string(hid_device *dev, wchar_t *string, size_t maxlen)
+int hid_get_manufacturer_string(hid_device *dev, wchar_t *string, size_t maxlen)
 {
 	BOOL res;
 
@@ -895,7 +895,7 @@ int HID_API_EXPORT_CALL hid_get_manufacturer_string(hid_device *dev, wchar_t *st
 	return 0;
 }
 
-int HID_API_EXPORT_CALL hid_get_product_string(hid_device *dev, wchar_t *string, size_t maxlen)
+int hid_get_product_string(hid_device *dev, wchar_t *string, size_t maxlen)
 {
 	BOOL res;
 
@@ -908,7 +908,7 @@ int HID_API_EXPORT_CALL hid_get_product_string(hid_device *dev, wchar_t *string,
 	return 0;
 }
 
-int HID_API_EXPORT_CALL hid_get_serial_number_string(hid_device *dev, wchar_t *string, size_t maxlen)
+int hid_get_serial_number_string(hid_device *dev, wchar_t *string, size_t maxlen)
 {
 	BOOL res;
 
@@ -921,7 +921,7 @@ int HID_API_EXPORT_CALL hid_get_serial_number_string(hid_device *dev, wchar_t *s
 	return 0;
 }
 
-int HID_API_EXPORT_CALL hid_get_indexed_string(hid_device *dev, int string_index, wchar_t *string, size_t maxlen)
+int hid_get_indexed_string(hid_device *dev, int string_index, wchar_t *string, size_t maxlen)
 {
 	BOOL res;
 

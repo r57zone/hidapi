@@ -29,16 +29,6 @@
 
 #include <wchar.h>
 
-#ifdef _WIN32
-      #define __declspec(dllexport)
-      #define HID_API_CALL
-#else
-      #define /**< API export macro */
-      #define /**< API call macro */
-#endif
-
-#define HID_API_EXPORT_CALL /**< API export and call macro*/
-
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -378,7 +368,7 @@ extern "C" {
 			@returns
 				This function returns 0 on success and -1 on error.
 		*/
-		int HID_API_EXPORT_CALL hid_get_manufacturer_string(hid_device *dev, wchar_t *string, size_t maxlen);
+		int hid_get_manufacturer_string(hid_device *dev, wchar_t *string, size_t maxlen);
 
 		/** @brief Get The Product String from a HID device.
 
@@ -390,7 +380,7 @@ extern "C" {
 			@returns
 				This function returns 0 on success and -1 on error.
 		*/
-		int HID_API_EXPORT_CALL hid_get_product_string(hid_device *dev, wchar_t *string, size_t maxlen);
+		int hid_get_product_string(hid_device *dev, wchar_t *string, size_t maxlen);
 
 		/** @brief Get The Serial Number String from a HID device.
 
@@ -402,7 +392,7 @@ extern "C" {
 			@returns
 				This function returns 0 on success and -1 on error.
 		*/
-		int HID_API_EXPORT_CALL hid_get_serial_number_string(hid_device *dev, wchar_t *string, size_t maxlen);
+		int hid_get_serial_number_string(hid_device *dev, wchar_t *string, size_t maxlen);
 
 		/** @brief Get a string from a HID device, based on its string index.
 
@@ -415,7 +405,7 @@ extern "C" {
 			@returns
 				This function returns 0 on success and -1 on error.
 		*/
-		int HID_API_EXPORT_CALL hid_get_indexed_string(hid_device *dev, int string_index, wchar_t *string, size_t maxlen);
+		int hid_get_indexed_string(hid_device *dev, int string_index, wchar_t *string, size_t maxlen);
 
 		/** @brief Get a string describing the last error which occurred.
 
